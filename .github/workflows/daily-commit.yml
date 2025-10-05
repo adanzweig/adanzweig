@@ -1,0 +1,62 @@
+name: Daily Commit (ATS.md)
+
+on:
+  schedule:
+    # 23:00 America/Argentina/Buenos_Aires == 02:00 UTC next day
+    - cron: "0 2 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+env:
+  REPO: adanzweig/adanzweig
+  BRANCH: main
+  FILE: ATS.md
+  TZ_REGION: America/Argentina/Buenos_Aires
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (no persisted creds)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ env.BRANCH }}
+
+      - name: Ensure tzdata and format date
+        shell: bash
+        run: |
+          sudo ln -snf /usr/share/zoneinfo/$TZ_REGION /etc/localtime
+          echo "TZ=$TZ_REGION" | sudo tee -a /etc/environment
+          echo "STAMP=$(TZ=$TZ_REGION date '+%Y-%m-%d %H:%M %z (%Z)')" >> $GITHUB_ENV
+
+      - name: Append date to ATS.md
+        run: |
+          touch "$FILE"
+          echo "${STAMP}" >> "$FILE"
+          echo "Appended: ${STAMP}"
+
+      - name: Configure Git author as YOU
+        run: |
+          git config user.name "Adán Zweig"
+          git config user.email "${{ secrets.GIT_EMAIL }}"
+
+      - name: Commit if changed
+        run: |
+          if ! git diff --quiet -- "$FILE"; then
+            git add "$FILE"
+            git commit -m "chore: daily tick — ${STAMP}"
+          else
+            echo "No changes to commit."
+          fi
+
+      - name: Push with PAT (counts as your contribution)
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          # Avoid leaking the token in logs
+          git remote set-url origin "https://x-access-token:${GH_PAT}@github.com/${{ env.REPO }}.git"
+          git push origin "${BRANCH}"
