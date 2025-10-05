@@ -1,9 +1,9 @@
-name: Daily Commit (ATS.md)
+name: Daily Randomized Commits (ATS.md)
 
 on:
   schedule:
-    # 23:00 America/Argentina/Buenos_Aires == 02:00 UTC next day
-    - cron: "0 3 * * *"
+    # 23:00 America/Argentina/Buenos_Aires == 02:00 UTC
+    - cron: "0 2 * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -26,37 +26,47 @@ jobs:
           persist-credentials: false
           ref: ${{ env.BRANCH }}
 
-      - name: Ensure tzdata and format date
+      - name: Set timezone and compute base timestamp
         shell: bash
         run: |
           sudo ln -snf /usr/share/zoneinfo/$TZ_REGION /etc/localtime
           echo "TZ=$TZ_REGION" | sudo tee -a /etc/environment
-          echo "STAMP=$(TZ=$TZ_REGION date '+%Y-%m-%d %H:%M %z (%Z)')" >> $GITHUB_ENV
-
-      - name: Append date to ATS.md
-        run: |
-          touch "$FILE"
-          echo "${STAMP}" >> "$FILE"
-          echo "Appended: ${STAMP}"
+          echo "STAMP_BASE=$(TZ=$TZ_REGION date '+%Y-%m-%d %H:%M %z (%Z)')" >> $GITHUB_ENV
 
       - name: Configure Git author as YOU
         run: |
           git config user.name "Adán Zweig"
           git config user.email "${{ secrets.GIT_EMAIL }}"
 
-      - name: Commit if changed
+      - name: Decide how many commits today (1–5) and make them
+        env:
+          FILE: ${{ env.FILE }}
+        shell: bash
         run: |
-          if ! git diff --quiet -- "$FILE"; then
+          # pick 1..5
+          COUNT=$(shuf -i 1-5 -n 1)
+          echo "Will create $COUNT commits."
+
+          # ensure file exists
+          touch "$FILE"
+
+          for i in $(seq 1 "$COUNT"); do
+            # fresh timestamp each commit
+            STAMP=$(TZ=$TZ_REGION date '+%Y-%m-%d %H:%M:%S %z (%Z)')
+            echo "${STAMP} — tick ${i}/${COUNT}" >> "$FILE"
+
             git add "$FILE"
-            git commit -m "chore: daily tick — ${STAMP}"
-          else
-            echo "No changes to commit."
-          fi
+            git commit -m "chore: daily tick ${i}/${COUNT} — ${STAMP}" || echo "Nothing to commit on iteration $i"
+
+            # small random pause to space commits (10–45s)
+            SLEEP_FOR=$(shuf -i 10-45 -n 1)
+            echo "Sleeping ${SLEEP_FOR}s before next commit..."
+            sleep "$SLEEP_FOR"
+          done
 
       - name: Push with PAT (counts as your contribution)
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
-          # Avoid leaking the token in logs
           git remote set-url origin "https://x-access-token:${GH_PAT}@github.com/${{ env.REPO }}.git"
-          git push origin "${BRANCH}"
+          git push origin "${BRANCH}" || (echo "First push failed, retrying in 10s..." && sleep 10 && git push origin "${BRANCH}")
