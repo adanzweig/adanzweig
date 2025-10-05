@@ -68,18 +68,6 @@
   </picture>
 </p>
 
-<!-- Top Langs -->
-<p align="center">
-  <picture>
-    <source 
-      srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=adanzweig&layout=compact&langs_count=10&theme=radical&card_width=445"
-      media="(prefers-color-scheme: dark)" />
-    <source 
-      srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=adanzweig&layout=compact&langs_count=10&card_width=445"
-      media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" />
-    <img alt="Top languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=adanzweig&layout=compact&langs_count=10&card_width=445" />
-  </picture>
-</p>
 
 <!-- Streak -->
 <p align="center">
