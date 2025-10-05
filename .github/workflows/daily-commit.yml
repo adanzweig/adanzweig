@@ -3,7 +3,7 @@ name: Daily Commit (ATS.md)
 on:
   schedule:
     # 23:00 America/Argentina/Buenos_Aires == 02:00 UTC next day
-    - cron: "0 2 * * *"
+    - cron: "0 3 * * *"
   workflow_dispatch: {}
 
 permissions:
