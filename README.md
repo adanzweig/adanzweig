@@ -56,7 +56,7 @@
 ### 📊 GitHub Overview
 
 <!-- Stats (dark/light aware) -->
-<p align="center">
+<!-- <p align="center">
   <picture>
     <source 
       srcset="https://github-readme-stats.vercel.app/api?username=adanzweig&show_icons=true&hide_title=true&rank_icon=github&theme=radical&hide=issues"
@@ -66,7 +66,7 @@
       media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" />
     <img alt="GitHub stats" src="https://github-readme-stats.vercel.app/api?username=adanzweig&show_icons=true&hide_title=true&rank_icon=github&hide=issues" />
   </picture>
-</p>
+</p> -->
 
 
 <!-- Streak -->
