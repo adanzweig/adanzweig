@@ -76,7 +76,7 @@
 
 <!-- Trophies -->
 <p align="center">
-  <img alt="Trophies" src="https://github-profile-trophy.vercel.app/?username=adanzweig&theme=onedark&no-frame=true&no-bg=true&margin-w=10&row=1&column=7" />
+  <img alt="Trophies" src="https://github-trophies.vercel.app/?username=adanzweig" />
 </p>
 
 <!-- Activity Graph -->
