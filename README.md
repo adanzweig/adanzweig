@@ -81,7 +81,7 @@
 
 <!-- Activity Graph -->
 <p align="center">
-  <img alt="Activity Graph" src="https://github-readme-activity-graph.vercel.app/graph?username=adanzweig&radius=8&height=280&area=true&hide_border=true&bg_color=0d1117&color=58a6ff&line=58a6ff&point=1f6feb" />
+  <img alt="Activity Graph" src="https://github-readme-activity-graph.vercel.app/graph?username=adanzweig&radius=8&height=280&area=true&hide_border=true&bg_color=0d1117&color=58a6ff&line=58a6ff&point=1f6feb&days=15" />
 </p>
 
 ---
