@@ -71,7 +71,7 @@
 
 <!-- Streak -->
 <p align="center">
-  <img alt="GitHub Streak" src="https://streak-stats.demolab.com?user=adanzweig&hide_longest_streak=true&theme=dark&card_width=540" />
+  <img alt="GitHub Streak" src="https://github-readme-streak-stats.herokuapp.com/?user=adanzweig&theme=dark" />
 </p>
 
 <!-- Trophies -->
