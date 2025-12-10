@@ -17,7 +17,7 @@
 
 ### 🌟 About Me
 - CTO at **Volt Home** — building **smart energy** & net-zero solutions.  
-- Co-founded **Descuentocity** & **Turismocity**.  
+- Co-founded **Descuentocity**.  
 - Currently building **Sunai** (SaaS for solar ops & monitoring).  
 - Love **AI agents**, **smart home**, **data systems**, & products that ship.
 
